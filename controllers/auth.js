@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import User from "../models/User.js";  
 import {generateJWT} from "../helpers/jwt.js";
 
-const createUser = async(req, res = response) => {
+const createUser = async(req, res) => {
 
     const {name, email, password} = req.body;
     try {
@@ -27,8 +27,6 @@ const createUser = async(req, res = response) => {
 
         res.status(200).json({
             ok: true,
-            uid: user.id,
-            name: user.name,
             token
         });
     } catch (error) {
@@ -40,7 +38,7 @@ const createUser = async(req, res = response) => {
     };
 };
 
-const loginUser = async(req, res = response) => {
+const loginUser = async(req, res) => {
 
     const {email, password} = req.body;
 
@@ -59,8 +57,8 @@ const loginUser = async(req, res = response) => {
 
                 res.json({
                     ok: true,
-                    uid: user.id,
-                    name: user.name,
+                    //uid: user.id,
+                    //name: user.name,
                     token
                 })
             }
@@ -79,7 +77,7 @@ const loginUser = async(req, res = response) => {
     }
 }
 
-const renewToken = async(req, res = response) => {
+const renewToken = async(req, res) => {
 
     const {uid, name} = req;
 
@@ -87,8 +85,8 @@ const renewToken = async(req, res = response) => {
 
     res.json({
         ok: true,
-        uid,
-        name: name,
+       // uid,
+       // name: name,
         token
     })
 };

@@ -1,7 +1,7 @@
 import { response } from "express";
 import Task from "../models/Task.js";
 
-const getTasks = async(req, res = response) => {
+const getTasks = async(req, res ) => {
     
     const uid = req.uid;
 
@@ -13,7 +13,7 @@ const getTasks = async(req, res = response) => {
     })
 };
 
-const createTask = async(req, res = response) => {
+const createTask = async(req, res) => {
 
     const task = new Task(req.body);
 
@@ -35,7 +35,7 @@ const createTask = async(req, res = response) => {
     };
 };
 
-const updateTask = async(req, res = response) => {
+const updateTask = async(req, res) => {
 
     const taskId = req.params.id;
     const uid = req.uid;
@@ -69,7 +69,7 @@ const updateTask = async(req, res = response) => {
     }
 };
 
-const completeTask = async(req, res = response) => {
+const completeTask = async(req, res) => {
 
     const taskId = req.params.id;
 
@@ -99,7 +99,7 @@ const completeTask = async(req, res = response) => {
     }
 };
 
-const deleteTask = async(req, res = response) => {
+const deleteTask = async(req, res) => {
 
     const taskId = req.params.id;
 
