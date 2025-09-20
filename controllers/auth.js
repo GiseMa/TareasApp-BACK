@@ -1,4 +1,3 @@
-import { response } from "express";
 import bcrypt from "bcryptjs";
 import User from "../models/User.js";  
 import {generateJWT} from "../helpers/jwt.js";
@@ -85,8 +84,8 @@ const renewToken = async(req, res) => {
 
     res.json({
         ok: true,
-       // uid,
-       // name: name,
+        //uid,
+        //name: name,
         token
     })
 };

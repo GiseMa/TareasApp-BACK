@@ -1,16 +1,24 @@
-import { response } from "express";
 import Task from "../models/Task.js";
 
 const getTasks = async(req, res ) => {
-    
-    const uid = req.uid;
 
-    const tasks = await Task.find({user: uid})
+     try {
+        const uid = req.uid;
+        const tasks = await Task.find({user: uid})
 
-    res.json({
-        ok: true,
-        tasks
-    })
+        res.json({
+            ok: true,
+            tasks
+        })
+
+    } catch (error) {
+        console.log('Error al traer tareas: ', error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Error trayendo la tareas - BACK'
+        })
+    };
+
 };
 
 const createTask = async(req, res) => {
@@ -35,7 +43,7 @@ const createTask = async(req, res) => {
     };
 };
 
-const updateTask = async(req, res) => {
+const updateTask = async(req, res = response) => {
 
     const taskId = req.params.id;
     const uid = req.uid;
