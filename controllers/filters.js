@@ -1,20 +1,21 @@
 import Filter from "../models/Filter.js";
 
-export const getFilters = async(req, res) => {
+ export const getFilters = async(req, res) => {
 
-    try {
+    try { 
         //$in es un operador de comparacion de mongoDB
         const filters = await Filter.find({filterType: {$in: ['type', 'state', 'order']}});
         
         const types = filters.filter(f => f.filterType === 'type');
         const state = filters.filter(f => f.filterType === 'state');
-        const order = filters.filter(f => f.filterType === 'order');
-
-       /*  const types = await Filter.find({filterType: 'type'});
+        const order = filters.filter(f => f.filterType === 'order'); 
+        /* 
+        const types = await Filter.find({filterType: 'type'});
         const state = await Filter.find({filterType: 'state'});
-        const order = await Filter.find({filterType: 'order'});
+        const order = await Filter.find({filterType: 'order'}); 
         */
-        res.json({
+
+         res.json({
             types, state, order
         });
     } catch (error) {
@@ -25,3 +26,4 @@ export const getFilters = async(req, res) => {
         })
     }
 }
+

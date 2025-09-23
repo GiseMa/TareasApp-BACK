@@ -34,7 +34,6 @@ export const createValidation = [
     check('type', 'Tiene que elegir un tipo').not().isEmpty(),
     check('start').custom(isDate).withMessage('Fecha de inicio invalida - BACK'),
     check('end').custom(isDate).withMessage('Fecha de fin invalida - BACK'),
-
 ];
 
 export const updateValidation = [
@@ -43,5 +42,4 @@ export const updateValidation = [
     check('type', 'Tiene que elegir un tipo').optional().not().isEmpty(),
     check('start').optional().custom(isDate).withMessage('Fecha de inicio obligatoria - BACK'),
     check('end').optional().custom(isDate).withMessage('Fecha de finalizacion obligatoria - BACK'),
-
 ];

@@ -1,6 +1,6 @@
 import Task from "../models/Task.js";
 
-const getTasks = async(req, res ) => {
+const getTasks = async(req, res) => {
 
      try {
         const uid = req.uid;
@@ -18,7 +18,18 @@ const getTasks = async(req, res ) => {
             msg: 'Error trayendo la tareas - BACK'
         })
     };
+};
 
+const getTaskById = async(taskId) => {
+
+    try {
+        const task = await Task.findById(taskId);
+        return task;
+
+    } catch (error) {
+        console.log('Error al encontrar tarea: ', error);
+        return null;
+    };
 };
 
 const createTask = async(req, res) => {
@@ -43,21 +54,19 @@ const createTask = async(req, res) => {
     };
 };
 
-const updateTask = async(req, res = response) => {
+const updateTask = async(req, res) => {
 
     const taskId = req.params.id;
     const uid = req.uid;
 
     try {
-        const task = await Task.findById(taskId);
-
-        if(!task) {
+       if(getTaskById(taskId) === null) {
             return res.status(404).json({
                 ok: false,
                 msg: 'No existe una tarea con ese ID'
             })
-        }
-        const newTask = {
+       }
+       const newTask = {
             ...req.body,
             user: uid
         }
@@ -68,6 +77,7 @@ const updateTask = async(req, res = response) => {
             ok: true,
             task: updateTask
         })
+       
     } catch (error) {
         console.log(error);
         res.status(500).json({
@@ -77,58 +87,21 @@ const updateTask = async(req, res = response) => {
     }
 };
 
-const completeTask = async(req, res) => {
-
-    const taskId = req.params.id;
-
-    try {
-
-        const task = await Task.findById(taskId);
-
-        if(!task) {
-            return res.status(404).json({
-                ok: false,
-                msg: 'No existe una tarea con ese ID'
-            })
-        }
-        task.completed = true;
-        const updateTask = await task.save();
-
-        res.json({
-            ok: true,
-            task: updateTask
-        })
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Error actualizando la tarea - BACK'
-        })
-    }
-};
 
 const deleteTask = async(req, res) => {
 
     const taskId = req.params.id;
 
     try {
-        const task = await Task.findById(taskId);
-        
-        if(!task) {
+        if(getTaskById(taskId) === null) {
             return res.status(404).json({
                 ok: false,
                 msg: 'No existe una tarea con ese ID'
             })
-        }
+       }
 
-        if(!task.completed) {
-            await Task.findByIdAndDelete(taskId);
-            return res.json({ok: true})
-        } else {
-            task.eliminated = true;
-            await task.save();
-            return res.json({ ok: true, task });
-        }
+        await Task.findByIdAndDelete(taskId);
+        return res.json({ok: true})
 
     } catch (error) {
         console.log(error);
@@ -139,4 +112,4 @@ const deleteTask = async(req, res) => {
     }
 };
 
-export {getTasks, createTask, updateTask, deleteTask, completeTask};
+export {getTasks, createTask, updateTask, deleteTask};

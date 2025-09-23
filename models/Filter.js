@@ -12,7 +12,15 @@ const FilterSchema = Schema({
     filterType: {
         type: String,
         required: true,
-    }
+    },
+    label: {
+        type: String,
+        required: true,
+    },
+    multiple: {
+        type: Boolean,
+        required: false,
+    },
 });
 
 FilterSchema.method('toJSON', function() {

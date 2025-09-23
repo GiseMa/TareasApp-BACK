@@ -2,14 +2,18 @@ import jwt from 'jsonwebtoken';
 
 export const validateJWT = (req, res, next) => {
 
-    const token = req.header('x-token');
+    const header = req.header('authorization');
 
-    if(!token) {
+    if(!header) {
         return res.status(400).json({
             ok: false,
             msg: 'No hay token en la peticion'
         })
     };
+
+    const token = header.startsWith('Bearer ')
+    ? header.slice(7)
+    : header;
 
     try {
         const {uid, name} = jwt.verify(
